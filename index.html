@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-A-Sketch</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(0, 174, 255);
+            flex-direction: column;
+            height: 95vh;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            height: 600px;
+            width: 600px;
+            background-color: coral;
+            padding: 5px;
+            box-shadow: 0px 0px 10px rgb(47, 47, 47);
+
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .box {
+            height: 37.5px;
+            width: 37.5px;
+            border: 0.5px solid rgb(213, 213, 213);
+            box-sizing: border-box;
+            background-color: white;
+
+
+        }
+
+        .active {
+            background-color: rgb(0, 0, 0);
+
+        }
+
+        /* .box:hover {
+            background-color: rgb(38, 38, 38);
+            transition: all 0s ease-in-out
+        } */
+
+        .popup {
+            position: absolute;
+            height: 300px;
+            flex-direction: column;
+            width: 500px;
+            box-shadow: 0px 0px 10px rgb(178, 178, 178);
+            border-radius: 10px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .popup>input {
+            font-size: 20px;
+            padding: 10px;
+            width: 40px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 0px;
+            margin: 10px;
+            background-color: rgb(52, 105, 185);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Etch-A-Sketch</h1>
+    <div class="container">
+
+    </div>
+    <div>
+        <button onclick="show()">Change Grid</button>
+        <button onclick="cleargrid()">Clear</button>
+    </div>
+    <div class="popup">
+        <h3>Enter new dimensions</h3>
+        <label for="num"><small>Dimensions</small></label>
+        <input id="num" name="num" type="text"><br>
+        <button id="submit" type="button">Submit</button>
+    </div>
+    <script>
+        let inputField = document.getElementById('num');
+        document.getElementById('submit').addEventListener('click', function () {
+            const value = inputField.value;
+            document.getElementsByClassName('popup')[0].style.display = 'none';
+            newbox(value);
+        })
+        const container = document.getElementsByClassName('container')[0];
+        for (let i = 0; i < 256; i++) {
+            let a = document.createElement('div');
+            a.className = "box";
+            a.addEventListener('mouseover', changeColor);
+
+            container.appendChild(a);
+        }
+        function show() {
+            document.getElementsByClassName('popup')[0].style.display = 'flex';
+
+        }
+        function changeColor(e) {
+            if (e.type == 'mouseover' || e.type == 'mousedown') {
+
+                e.target.style.backgroundColor = '#292929';
+            }
+        }
+
+
+        function newbox(x) {
+            container.innerHTML = '';
+            for (let i = 0; i < x * x; i++) {
+                let a = document.createElement('div');
+                a.style.height = 600 / x + 'px';
+                a.style.width = 600 / x + 'px';
+                a.className = "box";
+                a.addEventListener('mouseover', changeColor);
+
+                a.addEventListener('mousedown', () => {
+                    mousedown = true; // Set mousedown to true when mouse button is pressed down
+                });
+                a.addEventListener('mouseup', () => {
+                    mousedown = false; // Set mousedown to false when mouse button is released
+                });
+                container.appendChild(a);
+            }
+        }
+
+        function cleargrid() {
+
+            let a = document.getElementsByClassName('box')
+
+            for (var index = 0; index < a.length; index++) {
+                a[index].style.backgroundColor = "white";
+            }
+
+        }
+
+
+    </script>
+</body>
+
+</html>
